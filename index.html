@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap"
+      rel="stylesheet"
+    />
+    <title>UDMF TEXTMAP Integer Clamp</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      #file {
+        display: none;
+      }
+
+      body {
+        padding: 2rem;
+        margin: 0;
+        font-family: 'Oxygen', sans-serif;
+        background: #121212;
+        color: #ffffff;
+        line-height: 1.35;
+      }
+
+      button {
+        font-family: 'Oxygen', sans-serif;
+        background: #5600e8;
+        color: #ffffff;
+        border-radius: 2px;
+        margin: 0;
+        padding: 12px;
+        border: none;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      button:hover,
+      button:active,
+      button:focus {
+        background: #7f39fb;
+      }
+
+      button:disabled,
+      button:disabled:hover,
+      button:disabled:active,
+      button:disabled:focus {
+        background: #30009c;
+        color: #aaaaaa;
+      }
+
+      .content {
+        width: 100%;
+        max-width: 40rem;
+        margin: 0 auto;
+      }
+
+      .button-wrap,
+      .loading-spinner-wrap {
+        margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      h2 {
+        margin-top: 2rem;
+      }
+
+      li {
+        margin-top: 0.5rem;
+      }
+
+      li:first-child {
+        margin-top: 0;
+      }
+
+      .loading-spinner {
+        transition: all 0.2s ease;
+        transform: translateY(64px);
+        opacity: 0;
+        width: 8rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .spinner-item {
+        background: #ffffff;
+        height: 18px;
+        width: 18px;
+        animation-name: pulse;
+        animation-duration: 0.6s;
+        animation-timing-function: ease;
+        animation-fill-mode: both;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        border-radius: 50%;
+      }
+
+      .spinner-item_2 {
+        animation-delay: 0.15s;
+      }
+
+      .spinner-item_3 {
+        animation-delay: 0.3s;
+      }
+
+      .is-loading .loading-spinner {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0);
+        }
+
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1>UDMF TEXTMAP Integer Clamp</h1>
+      <p>
+        This is a simple tool for modifying UDMF TEXTMAP lumps to convert all
+        sector floor and ceiling rotation values from floating point numbers
+        into integers. If you are mapping for Zandronum, then any non-integer
+        sector rotation values will not be respected, so you can use this tool
+        to track down all of those non-Zandronum-friendly values and truncate
+        them.
+      </p>
+
+      <p>
+        This tool <em>will not</em> adjust the alignment of surfaces that are
+        modified - it is up to you to go back into your map and adjust the
+        alignment as a result of the rotation value truncation.
+      </p>
+
+      <h2>Usage Instructions</h2>
+      <ol>
+        <li>
+          Open your existing UDMF map in SLADE, and export the TEXTMAP as a .txt
+          file (Entry -> Export)
+        </li>
+        <li>
+          Click the button below and select the TEXTMAP.txt file you just
+          exported
+        </li>
+        <li>
+          Once the tool has processed your file, it will initiate a download of
+          the new file
+        </li>
+        <li>
+          In SLADE, highlight your old TEXTMAP lump, select Entry -> Import from
+          the options, and select the new TEXTMAP.txt downloaded by this tool.
+        </li>
+        <li>
+          Be patient while SLADE updates, as it could take a few dozen seconds
+          depending on the size of your map.
+        </li>
+        <li>
+          Save your new map (but please make a backup of the old one, just in
+          case) and enjoy the fruits of your labor
+        </li>
+      </ol>
+
+      <div class="button-wrap">
+        <button class="file-proxy">Choose TEXTMAP</button>
+      </div>
+      <div class="loading-spinner-wrap">
+        <div class="loading-spinner">
+          <div class="spinner-item spinner-item_1"></div>
+          <div class="spinner-item spinner-item_2"></div>
+          <div class="spinner-item spinner-item_3"></div>
+        </div>
+      </div>
+    </div>
+    <input type="file" name="textmap" id="file" accept=".txt" />
+
+    <script src="main.js"></script>
+  </body>
+</html>
